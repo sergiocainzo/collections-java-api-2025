@@ -29,13 +29,13 @@ public class OrdenacaoNumeros {
         List<Integer> ordenarPorOrdemAscendente = new ArrayList<>(listaNumeros);
         Collections.sort(ordenarPorOrdemAscendente);
         return ordenarPorOrdemAscendente;
-        
 
     }
-    //Ordenar por Descente
-    public List<Integer> ordenarDescendente(){
+
+    // Ordenar por Descente
+    public List<Integer> ordenarDescendente() {
         List<Integer> ordenarPorOrdemDescendente = new ArrayList<>(listaNumeros);
-        Collections.sort(ordenarPorOrdemDescendente,Comparator.reverseOrder());
+        Collections.sort(ordenarPorOrdemDescendente, Comparator.reverseOrder());
         return ordenarPorOrdemDescendente;
     }
 
@@ -55,8 +55,8 @@ public class OrdenacaoNumeros {
         on.adicionarNumero(4);
         on.adicionarNumero(3);
 
-        System.out.printf("Lista Original: %s\n",on.listaNumeros);
-        System.out.printf("Lista Ascendente: %s\n",on.ordenarAscendente());
+        System.out.printf("Lista Original: %s\n", on.listaNumeros);
+        System.out.printf("Lista Ascendente: %s\n", on.ordenarAscendente());
         System.out.printf("Lista Descendente: %s\n", on.ordenarDescendente());
     }
 
