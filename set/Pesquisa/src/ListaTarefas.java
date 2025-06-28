@@ -55,16 +55,24 @@ public class ListaTarefas {
     // Tarefas concluidas
     public Set<Tarefa> obterTarefasConcluidas() {
         System.out.println("\n\t --- Tarefas Concluídas ---");
-        Set<Tarefa> terefasConcluidas = listaTarefas.stream().filter(Tarefa::isStatus).collect(Collectors.toSet());
-        return terefasConcluidas;
+        Set<Tarefa> tarefasConcluidas = new HashSet<>();
+        for (Tarefa tarefa : listaTarefas) {
+            if (tarefa.isStatus()) {
+                tarefasConcluidas.add(tarefa);
+            }
+        }
+        return tarefasConcluidas;
     }
 
     // Tarefas Pendentes
     public Set<Tarefa> obterTarefasPendentes() {
         System.out.println("\n\t --- Tarefas Pendentes ---");
-        Set<Tarefa> tarefasPendentes = listaTarefas.stream().filter(tarefa -> !tarefa.isStatus())
-                .collect(Collectors.toSet());
-
+        Set<Tarefa> tarefasPendentes = new HashSet<>();
+        for (Tarefa tarefa : listaTarefas) {
+            if (!tarefa.isStatus()) {
+                tarefasPendentes.add(tarefa);
+            }
+        }
         return tarefasPendentes;
 
     }
@@ -72,30 +80,44 @@ public class ListaTarefas {
     // Marcar Tarefa Concluída
     public void marcarTarefaConcluida(String descricao) {
         System.out.println("\n\t --- Marcando Tarefa como Concluída ---");
+        boolean tarefaEncontrada = false;
         for (Tarefa tarefa : listaTarefas) {
-            if (tarefa.getDescricao().equalsIgnoreCase(descricao) && !tarefa.isStatus()) {
-                tarefa.setStatus(true);
-                System.out.printf("Status da tarefa '%s' foi alterado com sucesso.\n", descricao);
-                break;
-            } else {
-                System.out.printf("Tarefa: '%s' já está concluida.\n", descricao);
-                break;
+            if (tarefa.getDescricao().equalsIgnoreCase(descricao)) {
+                tarefaEncontrada = true;
+                if (tarefa.isStatus()) {
+                    tarefa.setStatus(true);
+                    System.out.printf("Status da tarefa '%s' foi aletarado para %s\n", tarefa.getDescricao(),
+                            tarefa.getStatusDescricao());
+                } else {
+                    System.out.printf("Tarefa: '%s' já está %s.\n", tarefa.getDescricao(), tarefa.getStatusDescricao());
+                }
+                return;
             }
+        }
+        if (!tarefaEncontrada) {
+            System.out.printf("Tarefa: '%s' não localizada.\n", descricao);
         }
     }
 
     // Marcar Tarefa Pendente
     public void marcarTarefaPendente(String descricao) {
         System.out.println("\n\t --- Marcando Tarefas como Pendente ---");
+        boolean tarefaEncontrada = false;
         for (Tarefa tarefa : listaTarefas) {
-            if (tarefa.getDescricao().equalsIgnoreCase(descricao) && tarefa.isStatus()) {
-                tarefa.setStatus(false);
-                System.out.printf("Status da tarefa '%s' foi alterado com sucesso.\n", descricao);
-                break;
-            } else {
-                System.out.printf("Tarefa: %s ainda está pendente.\n", descricao);
-                break;
+            if (tarefa.getDescricao().equalsIgnoreCase(descricao)) {
+                tarefaEncontrada = true;
+                if (tarefa.isStatus()) {
+                    tarefa.setStatus(false);
+                    System.out.printf("Status da tarefa '%s' foi aletarado para %s\n", tarefa.getDescricao(),
+                            tarefa.getStatusDescricao());
+                } else {
+                    System.out.printf("Tarefa: '%s' já está %s.\n", tarefa.getDescricao(), tarefa.getStatusDescricao());
+                }
+                return;
             }
+        }
+        if (!tarefaEncontrada) {
+            System.out.printf("Tarefa: '%s' não localizada.\n", descricao);
         }
     }
 
@@ -141,6 +163,7 @@ public class ListaTarefas {
         // Verificando a marcação para mudar o Status
         lt.marcarTarefaConcluida("Teste 1");
         lt.marcarTarefaConcluida("Teste 2");
+        lt.marcarTarefaConcluida("Teste");
 
         // Exibindo a lista atualizada
         lt.exibirTarefas();
@@ -148,6 +171,7 @@ public class ListaTarefas {
         // Verificando a marcação para mudar o Status
         lt.marcarTarefaPendente("Teste 1");
         lt.marcarTarefaPendente("Teste 3");
+        lt.marcarTarefaPendente("Teste 5");
 
         // Exibindo a lista atualizada
         lt.exibirTarefas();
